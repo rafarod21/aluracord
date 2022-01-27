@@ -118,6 +118,7 @@ const HomePage: React.FC = () => {
             <TextField
               name='name'
               fullWidth
+              // @ts-ignore
               textFieldColors={{
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
