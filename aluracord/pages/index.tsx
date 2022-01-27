@@ -65,6 +65,7 @@ const HomePage: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: appConfig.theme.colors.primary[500],
+          // @ts-ignore
           backgroundImage:
             'url(https://virtualbackgrounds.site/wp-content/uploads/2020/08/the-matrix-digital-rain.jpg)',
           backgroundRepeat: 'no-repeat',
@@ -153,6 +154,7 @@ const HomePage: React.FC = () => {
               borderColor: appConfig.theme.colors.neutrals[999],
               borderRadius: '10px',
               flex: 1,
+              // @ts-ignore
               minHeight: '240px',
             }}
           >
