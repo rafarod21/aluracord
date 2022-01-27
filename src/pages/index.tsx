@@ -1,36 +1,8 @@
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { Box, Button, Text, TextField, Image } from '@skynexui/components';
-import appConfig from '../config.json';
+import { useRouter } from 'next/router';
 
-const GlobalStyle: React.FC = () => {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: 'Open Sans', sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  );
-};
+import appConfig from '../../config.json';
 
 interface TitleProps {
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
@@ -40,7 +12,6 @@ const Title: React.FC<TitleProps> = ({ tag, children }) => {
   const Tag = tag || 'h1';
   return (
     <>
-      <GlobalStyle />
       <Tag>{children}</Tag>
       <style jsx>{`
         ${Tag} {
@@ -53,12 +24,24 @@ const Title: React.FC<TitleProps> = ({ tag, children }) => {
   );
 };
 
-const HomePage: React.FC = () => {
-  const username = 'rafarod21';
+const HomePage = () => {
+  const router = useRouter();
+
+  const [username, setUserName] = useState('rafarod21');
+  // const username = 'rafarod21';
+
+  function handleChangeUsername(event: ChangeEvent<HTMLInputElement>) {
+    setUserName(event.target.value);
+  }
+
+  function handleToChatPage(event: FormEvent) {
+    event.preventDefault();
+
+    router.push('/chat');
+  }
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
           display: 'flex',
@@ -94,6 +77,8 @@ const HomePage: React.FC = () => {
           {/* Formulário */}
           <Box
             as='form'
+            // @ts-ignore
+            onSubmit={handleToChatPage}
             styleSheet={{
               display: 'flex',
               flexDirection: 'column',
@@ -127,6 +112,8 @@ const HomePage: React.FC = () => {
                   backgroundColor: appConfig.theme.colors.neutrals[800],
                 },
               }}
+              value={username}
+              onChange={handleChangeUsername}
             />
             <Button
               type='submit'
