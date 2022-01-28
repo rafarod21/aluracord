@@ -1,6 +1,13 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
 import appConfig from '../../config.json';
+
+const SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM4MDM3NCwiZXhwIjoxOTU4OTU2Mzc0fQ.VAamHlqc2WrYTyGSAFgWu_Dsn1Fz0xQh0mldeOdZYT8';
+const SUPABASE_URL = 'https://guukghexbfjdxdihxkhz.supabase.co';
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const Header = () => {
   return (
@@ -108,13 +115,22 @@ const ChatPage = () => {
     setTextMessage(event.target.value);
   }
 
-  function handleSendMessage(textNewMessage: string) {
-    const message: Message = {
-      id: listMessages.length + 1,
-      user: 'rafarod21',
-      text: textNewMessage,
-    };
-    setListMessages([message, ...listMessages]);
+  async function handleSendMessage(textNewMessage: string) {
+    const response = await supabaseClient.from('messages').insert([
+      {
+        user: 'rafarod21',
+        text: textNewMessage,
+      },
+    ]);
+
+    if (response.data) {
+      const message: Message = {
+        id: response.data[0].id,
+        user: response.data[0].user,
+        text: response.data[0].text,
+      };
+      setListMessages([message, ...listMessages]);
+    }
     setTextMessage('');
   }
 
@@ -124,6 +140,20 @@ const ChatPage = () => {
       handleSendMessage(textMessage);
     }
   }
+
+  async function handleGetMessagesSupabase() {
+    const supabaseData = await supabaseClient
+      .from('messages')
+      .select('*')
+      .order('id', { ascending: false });
+    const messages = supabaseData.data as Message[];
+    setListMessages(messages);
+    console.log(listMessages);
+  }
+
+  useEffect(() => {
+    handleGetMessagesSupabase();
+  }, []);
 
   return (
     <Box
