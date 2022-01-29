@@ -1,8 +1,6 @@
 <p align="center">
   <br>
-  <!-- 
-  <Img src="https://github.com/rafarod21/podcastr/blob/main/public/logo.svg" width=500/>
-  -->
+  <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/logo.png" width=500/>
   
   <h3 align="center"> Converse com seus matrix-friends :man_technologist: </h3>
   
@@ -47,11 +45,9 @@ Esta aplicação é um projeto desenvolvido na Imersão React, evento organizado
 <h3 align="center">
   💻 Desktop 💻
 </h3>
-<p align="center">
-  <!-- 
-    <Img src="https://github.com/rafarod21/Podcastr/blob/main/git-assets/Home.jpeg" width=400>
-    <Img src="https://github.com/rafarod21/Podcastr/blob/main/git-assets/Details.jpeg" width=400>
-  -->
+<p align="center" justify="">
+    <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/homePage.jpeg" width=450> &nbsp; &nbsp;
+    <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/chatPage.jpeg" width=450>
 </p>
 
 ## Back-end :card_file_box:
@@ -71,7 +67,7 @@ git clone https://github.com/rafarod21/aluracord.git
     
 ##### Passo 2: Acessando a pasta do projeto
 ```bash
-cd Podcastr
+cd aluracord
 ```
     
 ##### Passo 3: Instalando as dependências com npm ou Yarn
