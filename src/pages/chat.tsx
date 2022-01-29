@@ -1,8 +1,11 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { useRouter } from 'next/router';
 
 import appConfig from '../../config.json';
+
+import { ButtonSendSticker } from '../components/ButtonSendSticker';
 
 const SUPABASE_ANON_KEY =
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzM4MDM3NCwiZXhwIjoxOTU4OTU2Mzc0fQ.VAamHlqc2WrYTyGSAFgWu_Dsn1Fz0xQh0mldeOdZYT8';
@@ -34,15 +37,15 @@ const Header = () => {
   );
 };
 
-interface Message {
+type Message = {
   id: number;
   user: string;
   text: string;
-}
+};
 
-interface MessageListProps {
+type MessageListProps = {
   messages: Message[];
-}
+};
 
 const MessageList = ({ messages }: MessageListProps) => {
   return (
@@ -100,16 +103,38 @@ const MessageList = ({ messages }: MessageListProps) => {
               {new Date().toLocaleDateString()}
             </Text>
           </Box>
-          {message.text}
+          {message.text.startsWith(':sticker:') ? (
+            <Image src={message.text.replace(':sticker: ', '')} alt='sticker' />
+          ) : (
+            message.text
+          )}
         </Text>
       ))}
     </Box>
   );
 };
 
+function onMessagesInRealTime(addMessage: (message: Message) => void) {
+  return supabaseClient
+    .from('messages')
+    .on('INSERT', (response) => {
+      addMessage(response.new as Message);
+    })
+    .subscribe();
+}
+
 const ChatPage = () => {
+  const router = useRouter();
+  const user = router.query.username;
+
   const [textMessage, setTextMessage] = useState('');
-  const [listMessages, setListMessages] = useState<Message[]>([]);
+  const [listMessages, setListMessages] = useState<Message[]>([
+    // {
+    //   id: 1,
+    //   user: 'rafarod21',
+    //   text: ':sticker: https://www.alura.com.br/imersao-react-4/assets/figurinhas/Figurinha_2.png',
+    // },
+  ]);
 
   function handleChangeMessage(event: ChangeEvent<HTMLInputElement>) {
     setTextMessage(event.target.value);
@@ -118,19 +143,19 @@ const ChatPage = () => {
   async function handleSendMessage(textNewMessage: string) {
     const response = await supabaseClient.from('messages').insert([
       {
-        user: 'rafarod21',
+        user,
         text: textNewMessage,
       },
     ]);
 
-    if (response.data) {
-      const message: Message = {
-        id: response.data[0].id,
-        user: response.data[0].user,
-        text: response.data[0].text,
-      };
-      setListMessages([message, ...listMessages]);
-    }
+    // if (response.data) {
+    //   const message: Message = {
+    //     id: response.data[0].id,
+    //     user: response.data[0].user,
+    //     text: response.data[0].text,
+    //   };
+    //   setListMessages([message, ...listMessages]);
+    // }
     setTextMessage('');
   }
 
@@ -148,11 +173,16 @@ const ChatPage = () => {
       .order('id', { ascending: false });
     const messages = supabaseData.data as Message[];
     setListMessages(messages);
-    console.log(listMessages);
+    // console.log(listMessages);
   }
 
   useEffect(() => {
     handleGetMessagesSupabase();
+    onMessagesInRealTime((message) => {
+      setListMessages((currentListMessages) => {
+        return [message, ...currentListMessages];
+      });
+    });
   }, []);
 
   return (
@@ -223,6 +253,12 @@ const ChatPage = () => {
                 backgroundColor: appConfig.theme.colors.neutrals[800],
                 marginRight: '12px',
                 color: appConfig.theme.colors.neutrals[200],
+              }}
+            />
+            <ButtonSendSticker
+              onStickerClick={(sticker) => {
+                // console.log(sticker);
+                handleSendMessage(`:sticker: ${sticker}`);
               }}
             />
           </Box>

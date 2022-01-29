@@ -33,7 +33,6 @@ const GlobalStyle: React.FC = () => {
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log('aqui');
   return (
     <>
       <GlobalStyle />

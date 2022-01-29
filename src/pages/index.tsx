@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 
 import appConfig from '../../config.json';
 
-interface TitleProps {
+type TitleProps = {
   tag?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-}
+};
 
 const Title: React.FC<TitleProps> = ({ tag, children }) => {
   const Tag = tag || 'h1';
@@ -37,7 +37,7 @@ const HomePage = () => {
   function handleToChatPage(event: FormEvent) {
     event.preventDefault();
 
-    router.push('/chat');
+    router.push(`/chat?username=${username}`);
   }
 
   return (
