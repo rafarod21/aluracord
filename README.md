@@ -56,7 +56,7 @@ Foi utilizado o Supabase para simular um backend real.
 
 ## Veja você mesmo :arrow_forward:
 
-#### :small_blue_diamond: Deploy Vercel: [Aluracord - Matrix](https://aluracord-kappa-tan.vercel.app/)
+#### :small_blue_diamond: Deploy Vercel: [Aluracord - Matrix](https://aluracord-three-tan.vercel.app/)
 
 #### :small_blue_diamond: Na própria máquina - Passo-a-passo
     
