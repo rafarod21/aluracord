@@ -46,8 +46,8 @@ Esta aplicação é um projeto desenvolvido na Imersão React, evento organizado
   💻 Desktop 💻
 </h3>
 <p align="center" justify="">
-    <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/homePage.jpeg" width=450> &nbsp; &nbsp;
-    <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/chatPage.jpeg" width=450>
+    <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/homePage.jpeg" width=400> &nbsp; &nbsp;
+    <Img src="https://github.com/rafarod21/aluracord/blob/main/.github/chatPage.jpeg" width=400>
 </p>
 
 ## Back-end :card_file_box:
